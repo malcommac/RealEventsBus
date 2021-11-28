@@ -1,20 +1,25 @@
 # RealEventsBus
 
-RealEventsBus is a small swift package which implement a basic event bus mechanism.  
-You can use it as a dispatcher for one-to-many events. It's like `NSNotification` but with type-safe support.
+RealEventsBus is a small swift experiment package to implement a basic type-safe event bus mechanism.  
+Some other implementations in GitHub are the sources of inspiration for this package.  
 
-## Highlights
+You can use it as replacement for standard `NSNotification`'s one-to-many messaging.
+It uses GCD for messagings, it's thread-safe and, best of all, it's type safe.
 
-- It's type safe; you can send message in a type-safe manner
-- Implement custom messages; just set conformance to `Event` or `BufferedEvent` type
+
+## ⭐️ Highlights
+
+- It's **type safe**
+- Implement **custom messages**; just set conformance to `Event` or `BufferedEvent` type
 - Messages/observers are posted and registered in thread safe
-- Easy to use; just one line to register and post events
-- Supports for buffered events
+- **Easy to use**; just one line to register and post events
+- Supports for **buffered events** (get the last value published by a bus)
 
-## 1. Example
+## How it works
 
-This example uses `enum` as datatype for event.  You can use any type you want as event, `struct` or `class`.
-First of all we need to define a list of events:
+This example uses `enum` as datatype for event.  
+Btw you can use any type you want as event, `struct` or `class` (see the other example below).
+First of all we need to define a custom event; if your event is a group of different messages this is the best thing you can do:
 
 ```swift
 public enum UserEvents: Event {
@@ -59,7 +64,7 @@ Bus<UserEvents>.post(.userDidLogged(username: "danielemm"))
 
 ## BufferedEvent
 
-If your event is conform to `BufferedEvent` instead of `Event` you can use the `lastValue()` function to get the latest posted value into the bus.  
+If your event is conform to `BufferedEvent` instead of `Event` you can use the `lastValue()` function to get the latest posted value into the bus. It's like Rx.  
 Moreover: when a new observer is registered it will receive the last value posted into the bus, if any.
 
 This is an example.
@@ -88,7 +93,7 @@ public class CustomEvent: BufferedEvent {
     let lastValue = Bus<CustomEvent>.lastValue() // print the type above!
 ```
 
-## Queue
+## Custom Dispatch Queue
 
 You can also specify a queue where the message callback will be called.  
 By default the `.main` queue is used.
@@ -99,7 +104,9 @@ Bus<CustomEvent>.register(self, queue: .global()) { _ in // in background queue
 }        
 ```
 
-## Swift Package Manager
+## Install
+
+### Swift Package Manager
 
 To install it using the Swift Package Manager, either directly add it to your project using Xcode 11, or specify it as dependency in the Package.swift file:
 
@@ -108,3 +115,17 @@ dependencies: [
     .package(url: "https://github.com/malcommac/RealEventsBus.git", branch: "main"),
 ],
 ```
+
+### CocoaPods
+
+Not yet supported.
+
+## Author 
+
+This little experiment was created by Daniele Margutti.  
+If you like it you can fork or open a PR or report an issue.  
+If you want to support my work just [take a look at my profile](https://github.com/malcommac).
+
+## License
+
+It's the MIT license.
