@@ -21,7 +21,7 @@ internal class EventObserver<EventType: AnyEvent> {
     weak var observer: AnyObject?
     
     /// The pointer is used when you need to check the observer to remove.
-    let observerPointer: UnsafeRawPointer
+    let observerRawPointer: UnsafeRawPointer
     
     /// Callback to call when the observer is triggered.
     let callback: EventCallback
@@ -43,9 +43,9 @@ internal class EventObserver<EventType: AnyEvent> {
     ///   - callback: callback to call when observer is triggered.
     init(_ observer: AnyObject, _ queue: DispatchQueue, _ callback: @escaping EventCallback) {
         self.observer = observer
-        self.observerPointer = UnsafeRawPointer(Unmanaged.passUnretained(observer).toOpaque())
-        self.callback = callback
+        self.observerRawPointer = UnsafeRawPointer(Unmanaged.passUnretained(observer).toOpaque())
         self.eventClassName = String(describing: observer)
+        self.callback = callback
         self.queue = queue
     }
     
@@ -53,6 +53,7 @@ internal class EventObserver<EventType: AnyEvent> {
     
     func post(_ event: EventType) {
         guard observer != nil else {
+            // No leak is generated but it could be great if you call `unregister()` on dealloc.
             assertionFailure("Observer for '\(eventClassName)' was deallocated without calling unregister()")
             return
         }

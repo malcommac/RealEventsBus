@@ -18,7 +18,9 @@ public extension Bus where EventType: BufferedEvent {
     ///   - storage: storage where the bus is saved; `.default` if not passed.
     ///   - queue: queue in which the callback will be triggered, `.main` if not passed.
     ///   - callback: callback to trigger.
-    static func register(_ observer: AnyObject, storage: BusStorage = .default, queue: DispatchQueue = .main, callback: @escaping EventCallback) {
+    static func register(_ observer: AnyObject, storage: BusStorage = .default,
+                         queue: DispatchQueue = .main,
+                         callback: @escaping EventCallback) {
         busForEventTypeIn(storage).register(observer, queue: queue, callback: callback)
     }
     
@@ -45,7 +47,9 @@ public extension Bus where EventType: BufferedEvent {
 
 fileprivate extension Bus where EventType: BufferedEvent {
 
-    func register(_ observer: AnyObject, queue: DispatchQueue, callback: @escaping EventCallback) {
+    func register(_ observer: AnyObject,
+                  queue: DispatchQueue,
+                  callback: @escaping EventCallback) {
         let observer = EventObserver<EventType>(observer, queue, callback)
         observers.append(observer)
         

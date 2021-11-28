@@ -36,7 +36,7 @@ public class BusStorage {
     /// Get the bus instance for a specified event type currently hold by the storage.
     ///
     /// - Returns: `Bus<EventType>?`
-    internal func busesForEventType<EventType: AnyEvent>() -> Bus<EventType>? {
+    internal func buseForEventType<EventType: AnyEvent>() -> Bus<EventType>? {
         for case let subscriber as Bus<EventType> in buses {
             return subscriber
         }

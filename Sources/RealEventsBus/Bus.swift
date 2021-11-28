@@ -37,7 +37,7 @@ public class Bus<EventType: AnyEvent>: AnyBus {
     /// - Parameter storage: storage where the bus is get or created.
     /// - Returns: `Bus<EventType>`
     static func busForEventTypeIn(_ storage: BusStorage) -> Bus<EventType> {
-        if let bus: Bus<EventType> = storage.busesForEventType() {
+        if let bus: Bus<EventType> = storage.buseForEventType() {
             return bus // use the existing bus
         }
         
@@ -61,7 +61,7 @@ extension Bus {
     /// - Parameters:
     ///   - observer: observer instance you want to unregister.
     ///   - storage: storage instance.
-    public static func unregister(_ observer: AnyObject, storage: BusStorage = .default) {
+    public static func unregister(_ observer: AnyObject?, storage: BusStorage = .default) {
         busForEventTypeIn(storage).unregister(observer: observer)
     }
     
@@ -75,9 +75,9 @@ extension Bus {
             return
         }
         
-        let objPointer = UnsafeRawPointer(Unmanaged.passUnretained(observer).toOpaque())
+        let rawPointer = UnsafeRawPointer(Unmanaged.passUnretained(observer).toOpaque())
         let newListeners = observers.filter {
-            $0.observerPointer != objPointer // remove observer which points to deallocated object.
+            $0.observerRawPointer != rawPointer // remove observer which points to deallocated object.
         }
         self.observers = newListeners
     }
