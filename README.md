@@ -3,6 +3,14 @@
 RealEventsBus is a small swift package which implement a basic event bus mechanism.  
 You can use it as a dispatcher for one-to-many events. It's like `NSNotification` but with type-safe support.
 
+## Highlights
+
+- It's type safe; you can send message in a type-safe manner
+- Implement custom messages; just set conformance to `Event` or `BufferedEvent` type
+- Messages/observers are posted and registered in thread safe
+- Easy to use; just one line to register and post events
+- Supports for buffered events
+
 ## 1. Example
 
 This example uses `enum` as datatype for event.  You can use any type you want as event, `struct` or `class`.
@@ -78,4 +86,25 @@ public class CustomEvent: BufferedEvent {
 
     // At certain point in your code:
     let lastValue = Bus<CustomEvent>.lastValue() // print the type above!
+```
+
+## Queue
+
+You can also specify a queue where the message callback will be called.  
+By default the `.main` queue is used.
+
+```swift
+Bus<CustomEvent>.register(self, queue: .global()) { _ in // in background queue
+   // do something
+}        
+```
+
+## Swift Package Manager
+
+To install it using the Swift Package Manager, either directly add it to your project using Xcode 11, or specify it as dependency in the Package.swift file:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/malcommac/RealEventsBus.git", branch: "main"),
+],
 ```
