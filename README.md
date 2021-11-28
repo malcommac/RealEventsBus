@@ -1,4 +1,4 @@
-# RealEventsBus
+# 🚎 RealEventsBus
 
 RealEventsBus is a small swift experiment package to implement a basic type-safe event bus mechanism.  
 Some other implementations in GitHub are the sources of inspiration for this package.  
@@ -6,8 +6,7 @@ Some other implementations in GitHub are the sources of inspiration for this pac
 You can use it as replacement for standard `NSNotification`'s one-to-many messaging.
 It uses GCD for messagings, it's thread-safe and, best of all, it's type safe.
 
-
-## ⭐️ Highlights
+## ⭐️ Feature Highlights
 
 - It's **type safe**
 - Implement **custom messages**; just set conformance to `Event` or `BufferedEvent` type
@@ -15,7 +14,7 @@ It uses GCD for messagings, it's thread-safe and, best of all, it's type safe.
 - **Easy to use**; just one line to register and post events
 - Supports for **buffered events** (get the last value published by a bus)
 
-## How it works
+## 🕵️ How It Works
 
 This example uses `enum` as datatype for event.  
 Btw you can use any type you want as event, `struct` or `class` (see the other example below).
@@ -62,7 +61,7 @@ When you need to post new events to any registered obserer like the one above ju
 Bus<UserEvents>.post(.userDidLogged(username: "danielemm"))
 ```
 
-## BufferedEvent
+### BufferedEvent
 
 If your event is conform to `BufferedEvent` instead of `Event` you can use the `lastValue()` function to get the latest posted value into the bus. It's like Rx.  
 Moreover: when a new observer is registered it will receive the last value posted into the bus, if any.
@@ -93,7 +92,7 @@ public class CustomEvent: BufferedEvent {
     let lastValue = Bus<CustomEvent>.lastValue() // print the type above!
 ```
 
-## Custom Dispatch Queue
+### Custom Dispatch Queue
 
 You can also specify a queue where the message callback will be called.  
 By default the `.main` queue is used.
