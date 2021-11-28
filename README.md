@@ -1,2 +1,3 @@
-# RealEventBus
-Event bus implementation in Swift
+# RealEventsBus
+
+A description of this package.
