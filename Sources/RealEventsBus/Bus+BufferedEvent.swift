@@ -19,7 +19,7 @@ public extension Bus where EventType: BufferedEvent {
     ///   - queue: queue in which the callback will be triggered, `.main` if not passed.
     ///   - callback: callback to trigger.
     static func register(_ observer: AnyObject, storage: BusStorage = .default, queue: DispatchQueue = .main, callback: @escaping EventCallback) {
-        busInStorage(storage).register(observer, queue: queue, callback: callback)
+        busForEventTypeIn(storage).register(observer, queue: queue, callback: callback)
     }
     
     /// Post a new event into the bus.
@@ -28,7 +28,7 @@ public extension Bus where EventType: BufferedEvent {
     ///   - event: event to post.
     ///   - storage: storage where the bus is saved, `.default` if not specified.
     static func post(_ event: EventType, storage: BusStorage = .default) {
-        busInStorage(storage).post(event)
+        busForEventTypeIn(storage).post(event)
     }
     
     /// Return the last value buffered by the bus of this type.
@@ -36,7 +36,7 @@ public extension Bus where EventType: BufferedEvent {
     /// - Parameter storage: storage in which the bus is present, `.default` if not passed.
     /// - Returns: `EventType?`
     static func lastValue(storage: BusStorage = .default) -> EventType? {
-        busInStorage(storage).lastValue
+        busForEventTypeIn(storage).lastValue
     }
 
 }

@@ -17,7 +17,7 @@ public extension Bus where EventType: Event {
     ///   - event: event to post.
     ///   - storage: storage destination, `.default` if none.
     static func post(_ event: EventType, storage: BusStorage = .default) {
-        busInStorage(storage).post(event)
+        busForEventTypeIn(storage).post(event)
     }
     
     /// Register a new observer to receive events from this bus type.
@@ -31,7 +31,7 @@ public extension Bus where EventType: Event {
                          storage: BusStorage = .default,
                          queue: DispatchQueue = .main,
                          _ callback: @escaping EventCallback) {
-        busInStorage(storage).register(observer, queue: queue, callback: callback)
+        busForEventTypeIn(storage).register(observer, queue: queue, callback: callback)
     }
     
     // MARK: - Private Functions

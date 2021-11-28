@@ -28,7 +28,7 @@ public class Bus<EventType: AnyEvent>: AnyBus {
     
     /// List of observers registered for this bus.
     internal var observers = SynchronizedArray<EventObserver<EventType>>()
-
+    
     // MARK: - Public Functions
     
     /// Return or create (if not exists) a bus for a given `EventType` inside
@@ -36,11 +36,12 @@ public class Bus<EventType: AnyEvent>: AnyBus {
     ///
     /// - Parameter storage: storage where the bus is get or created.
     /// - Returns: `Bus<EventType>`
-    static func busInStorage(_ storage: BusStorage) -> Bus<EventType> {
-        if let subscriber: Bus<EventType> = storage.busesForEventType() {
-            return subscriber
+    static func busForEventTypeIn(_ storage: BusStorage) -> Bus<EventType> {
+        if let bus: Bus<EventType> = storage.busesForEventType() {
+            return bus // use the existing bus
         }
         
+        // Create a new bus
         let bus = Bus<EventType>()
         storage.buses.append(bus)
         return bus
@@ -61,18 +62,22 @@ extension Bus {
     ///   - observer: observer instance you want to unregister.
     ///   - storage: storage instance.
     public static func unregister(_ observer: AnyObject, storage: BusStorage = .default) {
-        busInStorage(storage).unregister(observer: observer)
+        busForEventTypeIn(storage).unregister(observer: observer)
     }
     
     // MARK: - Private Functions
     
     /// Unregister given observer from self.
     ///
-    /// - Parameter observer: observer to unregister.
-    fileprivate func unregister(observer: AnyObject) {
+    /// - Parameter observer: observer to unregister, if `nil` nothing is done.
+    fileprivate func unregister(observer: AnyObject?) {
+        guard let observer = observer else {
+            return
+        }
+        
         let objPointer = UnsafeRawPointer(Unmanaged.passUnretained(observer).toOpaque())
         let newListeners = observers.filter {
-            $0.observerPointer != objPointer
+            $0.observerPointer != objPointer // remove observer which points to deallocated object.
         }
         self.observers = newListeners
     }

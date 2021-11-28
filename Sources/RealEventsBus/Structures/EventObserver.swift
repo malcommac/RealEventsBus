@@ -52,8 +52,8 @@ internal class EventObserver<EventType: AnyEvent> {
     // MARK: - Private Function
     
     func post(_ event: EventType) {
-        guard let _ = observer else {
-            assertionFailure("One of the observers did not unregister, but already dealocated, observer info: " + eventClassName)
+        guard observer != nil else {
+            assertionFailure("Observer for '\(eventClassName)' was deallocated without calling unregister()")
             return
         }
         

@@ -4,6 +4,7 @@
 //
 //  Thread safe array implementation for swift.
 //  Created by Rafael Setragni on 07/06/21.
+//  See <https://github.com/rafaelsetragni/awesome_notifications> package.
 //
 
 import Foundation
