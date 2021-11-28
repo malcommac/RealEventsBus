@@ -1,6 +1,6 @@
 # 🚎 RealEventsBus
 
-RealEventsBus is a small swift experiment package to implement a basic type-safe event bus mechanism.  
+RealEventsBus is a small swift experiment package to implement a basic **type-safe event bus** mechanism.  
 Some other implementations in GitHub are the sources of inspiration for this package.  
 
 You can use it as replacement for standard `NSNotification`'s one-to-many messaging.
@@ -107,7 +107,7 @@ Bus<CustomEvent>.register(self, queue: .global()) { _ in // in background queue
 
 ### Swift Package Manager
 
-To install it using the Swift Package Manager, either directly add it to your project using Xcode 11, or specify it as dependency in the Package.swift file:
+To install it using the Swift Package Manager specify it as dependency in the Package.swift file:
 
 ```swift
 dependencies: [
@@ -121,9 +121,9 @@ Not yet supported.
 
 ## Author 
 
-This little experiment was created by Daniele Margutti.  
+This little experiment was created by [Daniele Margutti](mailto:hello@danielemargutti.com).  
 If you like it you can fork or open a PR or report an issue.  
-If you want to support my work just [take a look at my profile](https://github.com/malcommac).
+If you want to support my work just [take a look at my Github Profile](https://github.com/malcommac).
 
 ## License
 
