@@ -55,6 +55,7 @@ fileprivate extension Bus where EventType: BufferedEvent {
     }
 
     func post(_ event: EventType) {
+        self.lastValue = event
         observers.forEach {
             $0.post(event)
         }
