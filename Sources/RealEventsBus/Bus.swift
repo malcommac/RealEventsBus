@@ -60,7 +60,7 @@ extension Bus {
     /// - Parameters:
     ///   - observer: observer instance you want to unregister.
     ///   - storage: storage instance.
-    static func unregister(_ observer: AnyObject, storage: BusStorage = .default) {
+    public static func unregister(_ observer: AnyObject, storage: BusStorage = .default) {
         busInStorage(storage).unregister(observer: observer)
     }
     
